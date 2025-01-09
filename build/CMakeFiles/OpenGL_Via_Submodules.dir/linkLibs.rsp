@@ -1,0 +1,1 @@
+ deps/assimp/lib/libassimp.a deps/glfw/src/libglfw3.a deps/glm/glm/libglm.a -lopengl32 deps/freetype/libfreetype.a deps/assimp/contrib/zlib/libzlibstatic.a -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lwinpthread -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
