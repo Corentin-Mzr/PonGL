@@ -83,3 +83,11 @@ PRIVATE
     OpenGL::GL
     freetype
 )
+
+# Copy fonts and shaders
+add_custom_target(copy_folders ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/fonts ${CMAKE_BINARY_DIR}/fonts
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/shaders ${CMAKE_BINARY_DIR}/shaders
+)

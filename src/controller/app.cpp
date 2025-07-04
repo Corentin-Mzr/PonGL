@@ -119,8 +119,8 @@ void App::setup_callbacks()
 // Define everything in the scene
 void App::setup_scene()
 {
-    shader = make_shader_program("../shaders/vertex.glsl", "../shaders/fragment.glsl");
-    text_shader = make_shader_program("../shaders/vertex_text.glsl", "../shaders/fragment_text.glsl");
+    shader = make_shader_program("shaders/vertex.glsl", "shaders/fragment.glsl");
+    text_shader = make_shader_program("shaders/vertex_text.glsl", "shaders/fragment_text.glsl");
 
     // Player
     player_id = scene.add_object(Rect{{-0.8f, 0.0f}, {0.0f, 0.0f}, {0.01f, 0.15f}});
@@ -134,7 +134,7 @@ void App::setup_scene()
     // Setup renderer as well
     renderer = Renderer(window, &scene, shader, text_shader);
     renderer.init_freetype();
-    renderer.load_font("../fonts/arial.ttf");
+    renderer.load_font("fonts/arial.ttf");
 }
 
 // Process input each frame
