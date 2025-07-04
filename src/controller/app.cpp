@@ -19,17 +19,36 @@ App::~App()
 void App::run()
 {
     setup_scene();
+    double accumulator = 0.0;
+    double previous_time = glfwGetTime();
+    double current_time = 0;
+    double frame_time = 0;
 
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
+        current_time = glfwGetTime();
+        frame_time = current_time - previous_time;
+        previous_time = current_time;
+
+        // Clamp
+        if (frame_time > 0.25)
+            frame_time = 0.25;
+
+        accumulator += frame_time;
+
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         process_input();
-        scene.update(dt);
-        renderer.render();
 
+        while (accumulator >= dt)
+        {
+            scene.update(dt);
+            accumulator -= dt;
+        }
+
+        renderer.render();
         glfwSwapBuffers(window);
     }
 }

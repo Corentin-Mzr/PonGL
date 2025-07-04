@@ -30,7 +30,7 @@ private:
     unsigned text_shader = 0;
     Scene scene;
     Renderer renderer;
-    float dt = 0.01f;
+    float dt = 1.0f/60.0f;
     unsigned player_id;
     bool keys[1024] = {false};
 
