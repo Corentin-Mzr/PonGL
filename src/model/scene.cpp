@@ -90,8 +90,6 @@ void Scene::handle_rect_collision(const Rect &paddle, Rect &ball, const float dt
 
     // And increment a bit to make game harder
     difficulty += 0.02f;
-
-    std::cout << difficulty << "\n";
 }
 
 // Check for wall collision
