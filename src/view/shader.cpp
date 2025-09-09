@@ -1,7 +1,12 @@
 #include "shader.hpp"
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
-[[nodiscard]] unsigned int make_shader_module(const std::string &filepath, unsigned int module_type)
+unsigned int make_shader_module(const std::string &filepath, unsigned int module_type)
 {
     // Get file content
     std::ifstream file;
@@ -40,7 +45,7 @@
     return shader_module;
 }
 
-[[nodiscard]] unsigned int make_shader_program(const std::string &vertex_filepath, const std::string &fragment_filepath)
+unsigned int make_shader_program(const std::string &vertex_filepath, const std::string &fragment_filepath)
 {
     // Create modules
     unsigned int vertex_shader = make_shader_module(vertex_filepath, GL_VERTEX_SHADER);
@@ -67,5 +72,4 @@
     glDeleteShader(fragment_shader);
 
     return shader_program;
-
 }
