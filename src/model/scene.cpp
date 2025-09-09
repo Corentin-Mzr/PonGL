@@ -20,17 +20,21 @@ unsigned Scene::add_object(const Rect &rect)
 void Scene::set_obj_vel(unsigned id, const glm::vec2 &new_vel)
 {
     if (id < objects.size())
+    {
         objects[id].set_vel(new_vel);
+    }
 }
 
 // Update the scene
 void Scene::update(const float dt)
 {
-    move_bot(objects[1], objects[2].get_pos());
+    move_bot(objects[1], objects[2]);
     for (size_t i = 0; i < objects.size(); ++i)
     {
         for (size_t j = i + 1; j < objects.size(); ++j)
+        {
             handle_rect_collision(objects[i], objects[j], dt);
+        }
 
         objects[i].update(dt);
         handle_wall_collision(objects[i]);
@@ -68,7 +72,9 @@ void Scene::handle_rect_collision(const Rect &paddle, Rect &ball, const float dt
                       next_pos.y - ball_dim.y <= paddle_top);
 
     if (!collision)
+    {
         return;
+    }
 
     // Reverse horizontal velocity
     glm::vec2 new_vel = ball_vel;
@@ -84,6 +90,8 @@ void Scene::handle_rect_collision(const Rect &paddle, Rect &ball, const float dt
 
     // And increment a bit to make game harder
     difficulty += 0.02f;
+
+    std::cout << difficulty << "\n";
 }
 
 // Check for wall collision
@@ -113,7 +121,9 @@ void Scene::handle_wall_collision(Rect &r)
 
     // Discard paddles for this part
     if (vel.x == 0)
+    {
         return;
+    }
 
     // Goal for player
     if (right > 1.0f)
@@ -129,23 +139,40 @@ void Scene::handle_wall_collision(Rect &r)
 }
 
 // Move bot in direction of the ball
-void Scene::move_bot(Rect &bot, const glm::vec2 &ball_pos)
+void Scene::move_bot(Rect &bot, const Rect &ball)
 {
-    const glm::vec2 &pos = bot.get_pos();
-    int random_choice = rand() % 100;
-    int threshold = 60;
+    // Reset bot velocity
+    bot.set_vel({0.0f, 0.0f});
 
-    if (pos.y < ball_pos.y && random_choice >= threshold)
+    const glm::vec2 &bot_pos = bot.get_pos();
+    const glm::vec2 &ball_pos = ball.get_pos();
+    const glm::vec2 &ball_vel = ball.get_vel();
+
+    int random_move = rand() % 100;
+    int dont_move_threshold = 5;
+    int random_invert = rand() % 100;
+    int invert_threshold = 5;
+
+    float bot_speed = 10.0f;
+    float pos_diff = ball_pos.y - bot_pos.y;
+
+    // Add a small delta to pos diff for angled shot
+    float dmult = (static_cast<float>(rand() % 221) - 110.0f) / 100.0f;
+    if (random_invert < invert_threshold)
     {
-        bot.set_vel({0.0f, 1.0f});
+        pos_diff *= dmult;
     }
-    else if (pos.y > ball_pos.y && random_choice >= threshold)
+
+    float vel_y = glm::clamp(pos_diff * bot_speed, -1.0f, 1.0f);
+
+    // Move only when ball in direction of bot if threshold is reached
+    if (ball_vel.x <= 0.0f || random_move < dont_move_threshold)
     {
-        bot.set_vel({0.0f, -1.0f});
+        return;
     }
     else
     {
-        bot.set_vel({0.0f, 0.0f});
+        bot.set_vel({0.0f, vel_y});
     }
 }
 

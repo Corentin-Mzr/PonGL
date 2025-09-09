@@ -24,6 +24,9 @@ void App::run()
     double current_time = 0;
     double frame_time = 0;
 
+    int steps = 8;
+    float sub_dt = dt / steps;
+
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
@@ -33,7 +36,9 @@ void App::run()
 
         // Clamp
         if (frame_time > 0.25)
+        {
             frame_time = 0.25;
+        }
 
         accumulator += frame_time;
 
@@ -44,8 +49,12 @@ void App::run()
 
         while (accumulator >= dt)
         {
-            scene.update(dt);
-            accumulator -= dt;
+            // Sub-stepping
+            for (int i = 0; i < steps; ++i)
+            {
+                scene.update(sub_dt);
+                accumulator -= sub_dt;
+            }
         }
 
         renderer.render();
@@ -141,11 +150,17 @@ void App::setup_scene()
 void App::process_input()
 {
     if (keys[GLFW_KEY_UP])
+    {
         scene.set_obj_vel(player_id, {0.0f, 1.0f});
+    }
     else if (keys[GLFW_KEY_DOWN])
+    {
         scene.set_obj_vel(player_id, {0.0f, -1.0f});
+    }
     else
+    {
         scene.set_obj_vel(player_id, {0.0f, 0.0f});
+    }
 }
 
 // Resize window
@@ -160,7 +175,10 @@ void App::key_callback(GLFWwindow *window, int key, int scancode, int action, in
     auto app = static_cast<App *>(glfwGetWindowUserPointer(window));
 
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    {
         glfwSetWindowShouldClose(window, true);
+    }
+
     if (key >= 0 && key < 1024)
     {
         if (action == GLFW_PRESS)

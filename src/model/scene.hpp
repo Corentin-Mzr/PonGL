@@ -28,7 +28,7 @@ public:
     void handle_wall_collision(Rect& r);
 
     // Move bot in direction of the ball
-    void move_bot(Rect &bot, const glm::vec2 &ball_dir);
+    void move_bot(Rect &bot, const Rect &ball);
 
     // Reset board after a goal
     void reset(Rect &ball, int direction, unsigned &score_to_increment);

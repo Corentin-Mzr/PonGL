@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(OpenGL_Via_Submodules VERSION 1.0.0 LANGUAGES CXX C)
+project(PonGL VERSION 1.0.0 LANGUAGES CXX C)
 
 # C++ 17
 set(CMAKE_CXX_STANDARD 17)
