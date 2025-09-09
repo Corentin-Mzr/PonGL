@@ -195,25 +195,25 @@ void Scene::reset(Rect &ball, int direction, unsigned &score_to_increment)
 }
 
 // Get objects
-std::vector<Rect> Scene::get_objects() const
+std::vector<Rect> Scene::get_objects() const noexcept
 {
     return objects;
 }
 
 // Returns current difficulty
-float Scene::get_difficulty() const
+float Scene::get_difficulty() const noexcept
 {
     return difficulty;
 }
 
 // Returns player score
-unsigned Scene::get_player_score() const
+unsigned Scene::get_player_score() const noexcept
 {
     return player_score;
 }
 
 // Returns bot score
-unsigned Scene::get_bot_score() const
+unsigned Scene::get_bot_score() const noexcept
 {
     return bot_score;
 }

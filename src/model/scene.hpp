@@ -13,6 +13,7 @@ public:
     Scene();
 
     // Add a rect object to the scene
+    [[nodiscard]]
     unsigned add_object(const Rect &rect);
 
     // Update object velocity
@@ -34,16 +35,20 @@ public:
     void reset(Rect &ball, int direction, unsigned &score_to_increment);
 
     // Get objects
-    std::vector<Rect> get_objects() const;
+    [[nodiscard]]
+    std::vector<Rect> get_objects() const noexcept;
 
     // Returns current difficulty
-    float get_difficulty() const;
+    [[nodiscard]]
+    float get_difficulty() const noexcept;
 
     // Returns player score
-    unsigned get_player_score() const;
+    [[nodiscard]]
+    unsigned get_player_score() const noexcept;
 
     // Returns bot score
-    unsigned get_bot_score() const;
+    [[nodiscard]]
+    unsigned get_bot_score() const noexcept;
 
 private:
     std::vector<glm::vec2> initial_positions;
