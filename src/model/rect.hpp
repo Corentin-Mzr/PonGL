@@ -20,13 +20,16 @@ public:
     void set_vel(const glm::vec2 &new_vel);
 
     // Returns position
-    glm::vec2 get_pos() const;
+    [[nodiscard]]
+    glm::vec2 get_pos() const noexcept;
 
     // Returns velocity
-    glm::vec2 get_vel() const;
+    [[nodiscard]]
+    glm::vec2 get_vel() const noexcept;
 
     // Returns width and height of the rectangle
-    glm::vec2 get_dim() const;
+    [[nodiscard]]
+    glm::vec2 get_dim() const noexcept;
 
 private:
     glm::vec2 pos, vel, dim;
