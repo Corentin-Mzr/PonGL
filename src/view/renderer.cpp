@@ -1,4 +1,5 @@
 #include "renderer.hpp"
+#include <string>
 
 Renderer::Renderer(GLFWwindow *window, Scene *scene, const unsigned shader, const unsigned text_shader) : window(window),
                                                                                                           scene(scene),
