@@ -11,7 +11,8 @@ Renderer::Renderer(GLFWwindow *window, Scene *scene, const unsigned shader, cons
     for (const auto &obj : scene->get_objects())
     {
         const auto &dim = obj.get_dim();
-        meshes.push_back(std::make_shared<RectMesh>(dim.x, dim.y));
+        // meshes.push_back(std::make_shared<RectMesh>(dim.x, dim.y));
+        meshes.emplace_back(dim.x, dim.y);
     }
 
     meshpos_location = glGetUniformLocation(shader, "mesh_pos");
@@ -24,7 +25,6 @@ Renderer::Renderer(GLFWwindow *window, Scene *scene, const unsigned shader, cons
     prepare_memory();
 }
 
-// Initialize Freetype
 void Renderer::init_freetype()
 {
     if (FT_Init_FreeType(&ft))
@@ -33,7 +33,6 @@ void Renderer::init_freetype()
     }
 }
 
-// Load a font
 void Renderer::load_font(const char *filepath)
 {
     if (FT_New_Face(ft, filepath, 0, &face))
@@ -47,7 +46,6 @@ void Renderer::load_font(const char *filepath)
     std::cout << "Font " << filepath << " loaded\n";
 }
 
-// Render the given text
 void Renderer::render_text(const std::string &text, float x, float y, const float scale)
 {
     glUseProgram(text_shader);
@@ -86,7 +84,6 @@ void Renderer::render_text(const std::string &text, float x, float y, const floa
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-// Render the scene
 void Renderer::render()
 {
     const auto &obj = scene->get_objects();
@@ -95,11 +92,17 @@ void Renderer::render()
     for (size_t i = 0; i < meshes.size(); ++i)
     {
         glUniform2fv(meshpos_location, 1, glm::value_ptr(obj[i].get_pos()));
-        meshes[i]->draw();
+        // meshes[i]->draw();
+        meshes[i].draw();
     }
 
     render_text("Player: " + std::to_string(scene->get_player_score()), 0.25f * width, 0.9f * height, 0.5f);
     render_text("Bot: " + std::to_string(scene->get_bot_score()), 0.75f * width, 0.9f * height, 0.5f);
+}
+
+void Renderer::cleanup()
+{
+    meshes.clear();
 }
 
 glm::mat4 Renderer::get_proj_matrix() const
@@ -108,7 +111,6 @@ glm::mat4 Renderer::get_proj_matrix() const
     return projection;
 }
 
-// Prepare VAO and VBO for text rendering
 void Renderer::prepare_memory()
 {
     glGenVertexArrays(1, &text_vao);
@@ -122,7 +124,6 @@ void Renderer::prepare_memory()
     glBindVertexArray(0);
 }
 
-// Load all glyphs from the font
 void Renderer::load_glyphs()
 {
     glUseProgram(text_shader);

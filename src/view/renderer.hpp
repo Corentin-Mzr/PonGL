@@ -42,6 +42,9 @@ public:
     // Render the scene
     void render();
 
+    // Clear meshes from Renderer. MUST BE CALLED BEFORE gflwTerminate !!!
+    void cleanup();
+
 private:
     GLFWwindow *window = nullptr;
     int width = 0, height = 0;
@@ -49,7 +52,8 @@ private:
     unsigned shader = 0;
     int meshpos_location = 0;
 
-    std::vector<std::shared_ptr<RectMesh>> meshes;
+    // std::vector<std::shared_ptr<RectMesh>> meshes;
+    std::vector<RectMesh> meshes;
 
     unsigned text_shader = 0;
     unsigned text_vao = 0;

@@ -11,11 +11,12 @@ App::App()
 
 App::~App()
 {
+    renderer.cleanup();
     glDeleteProgram(shader);
+    glfwDestroyWindow(window);
     glfwTerminate();
 }
 
-// Run the app
 void App::run()
 {
     setup_scene();
@@ -62,7 +63,6 @@ void App::run()
     }
 }
 
-// Initialize GLFW
 void App::setup_glfw()
 {
     // Initialize GLFW
@@ -75,7 +75,6 @@ void App::setup_glfw()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
 
-// Create the window
 void App::setup_window()
 {
     // Create a window
@@ -90,7 +89,6 @@ void App::setup_window()
     glfwSetWindowUserPointer(window, this);
 }
 
-// Load GLAD
 void App::setup_glad()
 {
     // Load GLAD
@@ -101,7 +99,6 @@ void App::setup_glad()
     }
 }
 
-// Define some OpenGL parameters (viewport, background color, ...)
 void App::setup_opengl()
 {
     // Set viewport
@@ -115,7 +112,6 @@ void App::setup_opengl()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-// Define callback functions
 void App::setup_callbacks()
 {
     // Define viewport callback
@@ -125,7 +121,6 @@ void App::setup_callbacks()
     glfwSetKeyCallback(window, key_callback);
 }
 
-// Define everything in the scene
 void App::setup_scene()
 {
     shader = make_shader_program("shaders/vertex.glsl", "shaders/fragment.glsl");
@@ -135,10 +130,10 @@ void App::setup_scene()
     player_id = scene.add_object(Rect{{-0.8f, 0.0f}, {0.0f, 0.0f}, {0.01f, 0.15f}});
 
     // Bot
-    scene.add_object(Rect{{0.8f, 0.0f}, {0.0f, 0.0f}, {0.01f, 0.15f}});
+    auto bot = scene.add_object(Rect{{0.8f, 0.0f}, {0.0f, 0.0f}, {0.01f, 0.15f}});
 
     // Ball
-    scene.add_object(Rect{{0.0f, 0.0f}, scene.get_difficulty() * glm::vec2{1.0f, 0.0f}, {0.01f, 0.01f}});
+    auto ball = scene.add_object(Rect{{0.0f, 0.0f}, scene.get_difficulty() * glm::vec2{1.0f, 0.0f}, {0.01f, 0.01f}});
 
     // Setup renderer as well
     renderer = Renderer(window, &scene, shader, text_shader);
@@ -146,7 +141,6 @@ void App::setup_scene()
     renderer.load_font("fonts/arial.ttf");
 }
 
-// Process input each frame
 void App::process_input()
 {
     if (keys[GLFW_KEY_UP])
@@ -163,13 +157,11 @@ void App::process_input()
     }
 }
 
-// Resize window
 void App::framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
 
-// Handle key inputs
 void App::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     auto app = static_cast<App *>(glfwGetWindowUserPointer(window));
