@@ -17,6 +17,36 @@ This project is an implementation of the Pong game in C++/C using OpenGL.
 - CMake >=3.28
 - OpenGL
 
+On linux, run the following commands:
+
+```sh
+sudo apt-get update
+sudo apt-get install -y build-essential cmake
+sudo apt-get install -y mesa-utils mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
+sudo apt-get install -y wayland-protocols \
+                        libwayland-dev \
+                        libxkbcommon-dev \
+                        libwayland-client0 \
+                        libwayland-cursor0 \
+                        libwayland-egl1-mesa
+sudo apt-get install -y libx11-dev \
+                        libxrandr-dev \
+                        libxcursor-dev \
+                        libxinerama-dev \
+                        libxcomposite-dev \
+                        libxi-dev \
+                        libudev-dev \
+                        libfreetype6-dev \
+                        libjpeg-dev \
+                        libopenal-dev \
+                        libflac-dev \
+                        libvorbis-dev \
+                        libxcb1-dev \
+                        libxcb-image0-dev \
+                        libxcb-randr0-dev \
+                        libxcb-xtest0-dev
+```
+
 ### Clone the projet
 
 ```sh
